@@ -1,0 +1,83 @@
+@keyframes draw {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+
+@keyframes fadeOut {
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+#logo rect {
+    fill-opacity: 0;
+    stroke: #f7c50b;
+    stroke-width: 0.52916676;
+    stroke-dasharray: 3319;
+    stroke-dashoffset: 3319;
+    animation-name: draw;
+    animation-duration: 10s;
+    animation-iteration-count: 1;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
+
+#logo {
+    position: relative;
+    text-align: center;
+    height: 100%;
+    animation-name: fadeOut;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
+    animation-delay: 1.5s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    z-index: 150;
+}
+
+#logo > svg {
+    height: 300px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-81.055px, -150px);
+}
+
+#full-logo {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    opacity: 0;
+    margin-left: -125px;
+    margin-top: -73px;
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
+    animation-delay: 1.7s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+    z-index: 100;
+}
+
+#particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    opacity: 0;
+    animation-name: fadeIn;
+    animation-duration: .5s;
+    animation-iteration-count: 1;
+    animation-delay: 1.7s;
+    animation-fill-mode: forwards;
+    animation-timing-function: ease-in-out;
+}
