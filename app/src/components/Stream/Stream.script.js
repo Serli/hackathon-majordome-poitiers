@@ -1,4 +1,7 @@
-import config from '../../config'
+import Vue from 'vue';
+import config from '../../config';
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
 
 export default  {
   name: 'rtc',
@@ -15,7 +18,12 @@ export default  {
       canvas.height = video.videoHeight;
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      window.open(canvas.toDataURL());
+      this.$http.post('http://localhost:3000/image', canvas.toDataURL()).then( response => {
+        console.log('ok', response);
+      }, response => {
+        console.log('ko');
+      });
+      // console.log(canvas.toDataURL());
     }
   },
 
