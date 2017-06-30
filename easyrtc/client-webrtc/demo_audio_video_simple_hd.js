@@ -76,7 +76,7 @@ function performCall(otherEasyrtcid) {
 
 function loginSuccess(easyrtcid) {
     selfEasyrtcid = easyrtcid;
-    document.getElementById("iam").innerHTML = "I am " + easyrtc.cleanId(easyrtcid);
+    document.getElementById("iam").innerHTML = "Je suis " + easyrtc.cleanId(easyrtcid);
 }
 
 

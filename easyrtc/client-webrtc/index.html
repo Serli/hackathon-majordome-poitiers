@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>EasyRTC Demo:EasyRTC Demo: Video+Audio HD 720</title>
+    <title>???</title>
     <link rel="stylesheet" type="text/css" href="/easyrtc/easyrtc.css" />
 
     <script src="/socket.io/socket.io.js"></script>
@@ -10,15 +10,11 @@
 
 </head>
 <body  onload="connect();">
-<h1>EasyRTC Demo: Video+Audio HD 720p</h1>
 <div id="demoContainer">
-    <div>
-        Note: your own image will show up postage stamp sized, while the other party"s video will be shown in high-definition (1280x720). Note: not all webcams are seen by WebRTC as providing high-definition video; the fallback is to use standard definition (640x480).
-    </div>
     <div id="connectControls">
-        <div id="iam">Not yet connected...</div>
+        <div id="iam">Pas encore connecté...</div>
         <br />
-        <strong>Connected users:</strong>
+        <strong>Utilisateurs connectés:</strong>
         <div id="otherClients"></div>
     </div>
     <div id="videos">
@@ -27,7 +23,6 @@
             <video autoplay="autoplay" id="callerVideo"></video>
             <video  class="easyrtcMirror" autoplay="autoplay" id="selfVideo" muted="true" volume="0" ></video>
         </div>
-        <!-- each caller video needs to be in it"s own div so it"s close button can be positioned correctly -->
     </div>
 </div>
 </body>
