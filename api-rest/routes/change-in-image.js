@@ -11,7 +11,7 @@ module.exports = (x, y, width, height) => {
         },
         setOriginal(image, cb){
             if (!width) {
-                getPixels(image, (err, pixels) => {
+                getPixels(image, Jimp.MIME_PNG, (err, pixels) => {
                     if (err) {
                         cb(err, false);
                         return;
@@ -24,12 +24,12 @@ module.exports = (x, y, width, height) => {
                 Jimp.read(image)
                     .then(img => {
                         img.crop(x, y, width, height)
-                            .getBuffer(Jimp.MIME_JPEG, (err, buf) => {
+                            .getBuffer(Jimp.MIME_PNG, (err, buf) => {
                                 if (err) {
                                     cb(err);
                                     return;
                                 }
-                                getPixels(buf, Jimp.MIME_JPEG, (err, pixels) => {
+                                getPixels(buf, Jimp.MIME_PNG, (err, pixels) => {
                                     if (err) {
                                         cb(err, false);
                                         return;
@@ -52,7 +52,7 @@ module.exports = (x, y, width, height) => {
             return !res;
         }, compare(image, cb){
             if (!width) {
-                getPixels(image, (err, pixels) => {
+                getPixels(image, Jimp.MIME_PNG, (err, pixels) => {
                     if (err) {
                         cb(err, false);
                         return;
@@ -67,13 +67,13 @@ module.exports = (x, y, width, height) => {
                 Jimp.read(image)
                     .then(img => {
                         img.crop(x, y, width, height)
-                            .getBuffer(Jimp.MIME_JPEG, (err, buf) => {
+                            .getBuffer(Jimp.MIME_PNG, (err, buf) => {
                                 if (err) {
                                     cb(err);
                                     return;
                                 }
 
-                                getPixels(buf, Jimp.MIME_JPEG, (err, pixels) => {
+                                getPixels(buf, Jimp.MIME_PNG, (err, pixels) => {
                                     if (err) {
                                         cb(err, false);
                                         return;
