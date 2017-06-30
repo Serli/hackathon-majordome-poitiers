@@ -1,8 +1,6 @@
 <template>
     <div>
-        <button class="pam" @click="startMonitoring()">
-            Démarrer une surveillance
-        </button>
+        <router-link :to="'stream'">Démarrer une surveillance</router-link>
     </div>
 </template>
 <script src="./Login.script.js"></script>

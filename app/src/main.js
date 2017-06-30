@@ -3,9 +3,6 @@
 import Vue from 'vue'
 import App from '@/components/Layout/Layout.vue'
 import router from './router'
-import VueParticles from 'vue-particles'
-
-Vue.use(VueParticles)
 
 Vue.config.productionTip = false
 

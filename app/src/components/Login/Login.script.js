@@ -3,7 +3,7 @@ export default {
 
     methods: {
         startMonitoring() {
-            console.log('start')
+
         }
     }
 }
