@@ -11,33 +11,16 @@ module.exports = (x, y, width, height) => {
         },
         setOriginal(image, cb){
             if (!width) {
-                getPixels(image, Jimp.MIME_PNG, (err, pixels) => {
-                    if (err) {
-                        cb(err, false);
-                        return;
-                    }
-
-                    orig = pixels.data;
+                Jimp.read(image).then(img => {
+                    orig = img;
                     cb(null, orig);
                 });
+
             } else {
                 Jimp.read(image)
                     .then(img => {
-                        img.crop(x, y, width, height)
-                            .getBuffer(Jimp.MIME_PNG, (err, buf) => {
-                                if (err) {
-                                    cb(err);
-                                    return;
-                                }
-                                getPixels(buf, Jimp.MIME_PNG, (err, pixels) => {
-                                    if (err) {
-                                        cb(err, false);
-                                        return;
-                                    }
-                                    orig = pixels.data;
-                                    cb(null, orig);
-                                });
-                            });
+                        orig = img.crop(x, y, width, height);
+                        cb(null, orig);
                     })
                     .catch(err => cb(err));
             }
@@ -45,48 +28,26 @@ module.exports = (x, y, width, height) => {
         },
 
         comparePixels: function (pixels) {
-            // on s'arrète au premier pixel qui ne match pas
-            const res = pixels.data.some((p, index) => {
-                return orig[index] !== p;
-            });
+            var dist = Jimp.distance(orig, pixels);
+            var diff = Jimp.diff(orig, pixels);
 
-            const nbPixelDiff = pixels.data.filter((p, index) => {
-                return orig[index] - 2  > p && orig[index] + 2  < p;
-            });
-
-            console.log(nbPixelDiff.length);
-
-            return !res;
+            if(dist < 0.15 || diff.percent < 0.15) {
+                // Match
+                return true
+            } else {
+                return false;
+            }
         }, compare(image, cb){
             if (!width) {
-                getPixels(image, Jimp.MIME_PNG, (err, pixels) => {
-                    if (err) {
-                        cb(err, false);
-                        return;
-                    }
-
-                    const res = this.comparePixels(pixels);
+                Jimp.read(image).then(img => {
+                    const res = this.comparePixels(img);
                     cb(null, res);
                 });
             } else {
                 Jimp.read(image)
                     .then(img => {
-                        img.crop(x, y, width, height)
-                            .getBuffer(Jimp.MIME_PNG, (err, buf) => {
-                                if (err) {
-                                    cb(err);
-                                    return;
-                                }
-
-                                getPixels(buf, Jimp.MIME_PNG, (err, pixels) => {
-                                    if (err) {
-                                        cb(err, false);
-                                        return;
-                                    }
-                                    const res = this.comparePixels(pixels);
-                                    cb(null, res);
-                                });
-                            });
+                        const res = this.comparePixels(img.crop(x, y, width, height));
+                        cb(null, res);
                     })
                     .catch(err => cb(err));
             }
