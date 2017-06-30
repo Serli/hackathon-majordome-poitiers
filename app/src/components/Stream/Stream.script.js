@@ -8,7 +8,7 @@ export default  {
         {
             easyrtc.setSocketUrl(config.server.url)
             easyrtc.enableDebug(config.server.debug)
-            easyrtc.easyApp("easyrtc.videoChatHd", "selfVideo", ["callerVideo"], this.loginSuccess, this.loginFailure)
+            easyrtc.easyApp("easyrtc.videoChatHd", "stream", ["callerVideo"], this.loginSuccess, this.loginFailure)
         },
     },
 
