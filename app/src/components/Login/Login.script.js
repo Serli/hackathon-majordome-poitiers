@@ -1,3 +1,9 @@
 export default {
-    name: 'Login'
+    name: 'Login',
+
+    methods: {
+        startMonitoring() {
+            console.log('start')
+        }
+    }
 }
