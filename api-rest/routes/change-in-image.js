@@ -49,6 +49,13 @@ module.exports = (x, y, width, height) => {
             const res = pixels.data.some((p, index) => {
                 return orig[index] !== p;
             });
+
+            const nbPixelDiff = pixels.data.filter((p, index) => {
+                return orig[index] - 2  > p && orig[index] + 2  < p;
+            });
+
+            console.log(nbPixelDiff.length);
+
             return !res;
         }, compare(image, cb){
             if (!width) {
@@ -58,9 +65,7 @@ module.exports = (x, y, width, height) => {
                         return;
                     }
 
-
                     const res = this.comparePixels(pixels);
-
                     cb(null, res);
                 });
             } else {
