@@ -18,8 +18,6 @@
                 <div class="grid-zone"></div>
             </div>
         </div>
-        <!--<button @click="capture()">Capture</button>-->
-        <!--<button @click="notifyMe()">Notifie moi !</button>-->
     </div>
 </template>
 <script src="./Stream.script.js"></script>
