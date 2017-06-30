@@ -64,6 +64,12 @@ export default  {
 
             // Comme ça, si l'utlisateur a refusé toute notification, et que vous respectez ce choix,
             // il n'y a pas besoin de l'ennuyer à nouveau.
+        },
+
+        autoCapture() {
+            setInterval(() => {
+                this.capture()
+            }, 5000)
         }
     },
 
