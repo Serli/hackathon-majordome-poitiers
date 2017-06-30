@@ -9,7 +9,7 @@ export default  {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
             easyrtc.enableDebug(false);
-            easyrtc.setVideoDims(window.innerWidth,window.innerHeight);
+            easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
             easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure);
         },
         capture() {
@@ -19,22 +19,24 @@ export default  {
             canvas.height = video.videoHeight;
             canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      // formData.append('image.png', );
-      canvas.toBlob((blob) => {
-        const formData = new FormData();
-        formData.append('file', blob, 'test.png')this.$http.post('http://localhost:3000/image', formData).then( response => {
-        console.log('ok', response);
-      }, response => {
-        console.log('ko');});
-      });
+            // formData.append('image.png', );
+            canvas.toBlob((blob) => {
+                const formData = new FormData();
+                formData.append('file', blob, 'test.png')
+                this.$http.post('http://localhost:3000/image', formData).then(response => {
+                    console.log('ok', response);
+                }, response => {
+                    console.log('ko');
+                });
+            });
 
-      // console.log(canvas.toDataURL());
+            // console.log(canvas.toDataURL());
 
-    },notifyMe() {
-      // Voyons si le navigateur supporte les notifications
-      if (!("Notification" in window)) {
-        alert("Ce navigateur ne supporte pas les notifications desktop");
-      }
+        }, notifyMe() {
+            // Voyons si le navigateur supporte les notifications
+            if (!("Notification" in window)) {
+                alert("Ce navigateur ne supporte pas les notifications desktop");
+            }
 
             // Voyons si l'utilisateur est OK pour recevoir des notifications
             else if (Notification.permission === "granted") {
