@@ -5,6 +5,7 @@
             <video class="easyrtcMirror" autoplay="autoplay" id="selfVideo" muted="true" volume="0" ref="video"></video>
         </div>
       <button @click="capture()">Capture</button>
+      <button @click="notifyMe()">Notifie moi !</button>
     </div>
 </template>
 <script src="./Stream.script.js"></script>
