@@ -18,11 +18,18 @@ export default  {
       canvas.height = video.videoHeight;
       canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-      this.$http.post('http://localhost:3000/image', canvas.toDataURL()).then( response => {
-        console.log('ok', response);
-      }, response => {
-        console.log('ko');
+      // formData.append('image.png', );
+      canvas.toBlob((blob) => {
+        const formData = new FormData();
+        formData.append('file', blob, 'test.png')
+        this.$http.post('http://localhost:3000/image', formData).then(response => {
+          console.log('ok', response);
+        }, response => {
+          console.log('ko');
+        });
       });
+
+
       // console.log(canvas.toDataURL());
     }
   },
