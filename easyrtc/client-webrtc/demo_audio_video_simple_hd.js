@@ -27,6 +27,7 @@ var selfEasyrtcid = "";
 
 
 function connect() {
+    easyrtc.setSocketUrl("http://localhost:8080");
     easyrtc.setVideoDims(1280,720);
     easyrtc.enableDebug(false);
     easyrtc.setRoomOccupantListener(convertListToButtons);
