@@ -1,5 +1,12 @@
+/**
+@Fonts
+ */
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
 body {
-    background: #CEDCE8;
+    background: #8A63B3;
+    font: 1.8em Lato, sans-serif;
+    color: #fff;
 }
 
 body, html {
@@ -18,12 +25,25 @@ body, html {
 /**
 @Forms
  */
-button,
-.button {
-    background: #DF7358;
+button {
+    background: transparent;
+    border-radius: 20px;
+    border: 3Px solid #fff;
+    font-size: 1.8rem;
+    line-height: 1;
     color: #fff;
-    font-weight: bold;
-    border: 0;
+}
+
+button a {
+    color: #fff;
+    text-decoration: none;
+}
+
+input[type="text"],
+input[type="number"],
+input[type="password"] {
+    border: none;
+    width: 100%;
+    box-shadow: 0px 3px 0px 0px rgba(0, 0, 0, 0.05);
     border-radius: 3px;
-    box-shadow: 0 2px 0 0 rgba(0, 0, 0, .8);
 }

@@ -1,0 +1,61 @@
+body[data-route="login"] {
+    line-height: 1;
+}
+
+#round-login {
+    border-radius: 50%;
+    width: 170px;
+    height: 170px;
+    background: rgba(0, 0, 0, .2);
+    background-size: contain;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+#round-login-camera,
+#round-login-baby,
+#round-login-kitchen {
+    content: "";
+    display: block;
+    width: 90%;
+    height: 90%;
+    position: absolute;
+    top: 20%;
+    left: 5%;
+    background-image: url(../../assets/img/camera.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    opacity: .3;
+    z-index: 10;
+}
+
+#round-login-baby {
+    background-image: url(../../assets/img/baby.svg);
+    z-index: 20;
+    opacity: 1;
+    top: -33%;
+    width: 50%;
+    left: 25%;
+}
+
+#login-form .grid-2 {
+    display: flex;
+}
+
+#login-form .grid-2 > * {
+    width: 50%;
+}
+
+#login-sep {
+    height: 4px;
+    padding: 0;
+    color: #F00;
+    background-color: rgba(0, 0, 0, .2);
+    border: 0;
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
