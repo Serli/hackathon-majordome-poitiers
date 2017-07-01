@@ -17,6 +17,9 @@
                     Se connecter
                 </button>
             </form>
+            <button class="pas prm plm mtm w90 center">
+                <router-link :to="'listen'">Surveiller</router-link>
+            </button>
         </div>
         <router-link :to="'listen'">listen</router-link>
     </div>
