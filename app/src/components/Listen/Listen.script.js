@@ -3,107 +3,55 @@ let socket = null;
 export default  {
   name: 'listen',
 
-  data() {
-    return {
-      selfEasyrtcid: null
-    }
-  },
-
-  methods: {
-
-    connect() {
-      easyrtc.setSocketUrl(config.server.url);
-      easyrtc.setVideoDims(1280, 720);
-      easyrtc.enableDebug(false);
-      easyrtc.setRoomOccupantListener(this.convertListToButtons);
-      easyrtc.easyApp("easyrtc.videoChatHd", "selfVideo", ["callerVideo"], this.loginSuccess, this.loginFailure);
-    },
-
-
-    clearConnectList() {
-      var otherClientDiv = document.getElementById('otherClients');
-      while (otherClientDiv.hasChildNodes()) {
-        otherClientDiv.removeChild(otherClientDiv.lastChild);
-      }
-    },
-
-    convertListToButtons (roomName, data, isPrimary) {
-      this.clearConnectList();
-      var otherClientDiv = document.getElementById('otherClients');
-      for (var easyrtcid in data) {
-        var button = document.createElement('button');
-        button.onclick = function (easyrtcid) {
-          return function () {
-            performCall(easyrtcid);
-          };
-        }(easyrtcid);
-
-        var label = document.createTextNode(easyrtc.idToName(easyrtcid));
-        button.appendChild(label);
-        button.className = "callbutton";
-        otherClientDiv.appendChild(button);
-      }
-    },
-
-
-    performCall(otherEasyrtcid)
-    {
-      easyrtc.hangupAll();
-      var acceptedCB = function (accepted, caller) {
-        if (!accepted) {
-          easyrtc.showError("CALL-REJECTED", "Sorry, your call to " + easyrtc.idToName(caller) + " was rejected");
+    data() {
+        return {
+            selfEasyrtcid: null
         }
-      };
-      var successCB = function () {
-      };
-      var failureCB = function () {
-      };
-      easyrtc.call(otherEasyrtcid, successCB, failureCB, acceptedCB);
     },
 
+    methods: {
 
-    loginSuccess(easyrtcid)
-    {
-      this.selfEasyrtcid = easyrtcid;
-      document.getElementById("iam").innerHTML = "Je suis " + easyrtc.cleanId(easyrtcid);
+        connect() {
+            easyrtc.setSocketUrl(config.server.url);
+            easyrtc.enableDebug(false);
+            easyrtc.setVideoDims(320, 480);
+            easyrtc.easyApp("easyrtc.videoChatHd", "selfVideo", ["callerVideo"], this.loginSuccess, this.loginFailure);
+        },
+
+        loginSuccess(easyrtcid)
+        {
+        },
+
+        loginFailure(errorCode, message)
+        {
+        },
     },
 
-
-    loginFailure(errorCode, message)
+    mounted()
     {
-      easyrtc.showError(errorCode, message);
-    }
-  },
-
-  mounted()
-  {
-    this.connect()
-    easyrtc.setAcceptChecker(function (caller, cb) {
-      cb(true);
-    });
-    socket = io(config.rest.url);
-    socket.on('alert-children', (msg) => {
-      if ('Notification' in window) {
-        Notification.requestPermission(function (status) {
-          switch (status) {
-            case 'granted':
-              var msg = new Notification('Alerte !!! ', {
-                body: 'Un enfant est dans la zone dangereuse !!',
-                icon: require('../../assets/img/logo.png')
-              });
-              break;
-            default:
-              alert('Un enfant est dans la zone dangereuse !!')
-          }
+        this.connect()
+        easyrtc.setAcceptChecker(function (caller, cb) {
+            cb(true);
+        })
+        this.$nextTick(() => {
+            easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
         });
-      }
-    });
-
-  },
-
-  destroyed()
-  {
-    socket = null;
-
-  }
+      socket = io(config.rest.url);
+      socket.on('alert-children', (msg) => {
+        if ('Notification' in window) {
+          Notification.requestPermission(function (status) {
+            switch (status) {
+              case 'granted':
+                var msg = new Notification('Alerte !!! ', {
+                  body: 'Un enfant est dans la zone dangereuse !!',
+                  icon: require('../../assets/img/logo.png')
+                });
+                break;
+              default:
+                alert('Un enfant est dans la zone dangereuse !!')
+            }
+          });
+        }
+      });
+    }
 }

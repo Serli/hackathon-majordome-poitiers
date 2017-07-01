@@ -17,20 +17,20 @@
     height: 100%;
 }
 
-#grid > .grid-3 {
+#grid > .grid-5 {
     display: flex;
-    height:  33.3333%;
+    height:  20%;
 }
 
 .grid-zone {
-    width: 33.3333%;
+    width: 20%;
     text-align: center;
 }
 
-#grid > .grid-3 + .grid-3 {
-    border-top: 1px solid rgba(255, 255, 255, .3);
+#grid > .grid-5 + .grid-5 {
+    border-top: 1px solid rgba(255, 255, 255, .5);
 }
 
-#grid > .grid-3 > * + * {
-    border-left: 1px solid rgba(255, 255, 255, .3);
+#grid > .grid-5 > * + * {
+    border-left: 1px solid rgba(255, 255, 255, .5);
 }

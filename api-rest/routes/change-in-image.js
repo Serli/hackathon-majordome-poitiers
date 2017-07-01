@@ -26,7 +26,6 @@ module.exports = (x, y, width, height) => {
                     })
                     .catch(err => cb(err));
             }
-
         },
         comparePixels: function (pixels) {
             var dist = Jimp.distance(orig, pixels);
@@ -63,7 +62,7 @@ module.exports = (x, y, width, height) => {
             } else {
                 Jimp.read(image)
                     .then(img => {
-                        const res = this.comparePixels(img.crop(x, y, width, height));
+                        const res = this.comparePixels(img.crop(xData, yData, widthData, heightData));
                         cb(null, res);
                     })
                     .catch(err => cb(err));
