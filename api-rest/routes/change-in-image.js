@@ -1,16 +1,18 @@
 const Jimp = require("jimp");
 const getPixels = require("get-pixels");
+import { isChild } from "./child-recognition";
 
 
 module.exports = (x, y, width, height) => {
-    let orig = [];
+    let orig = null;
 
     return {
         isinit(){
-            return orig.length > 0;
+            return orig != null;
         },
         setOriginal(image, cb){
             if (!width) {
+                console.log('Set first time');
                 Jimp.read(image).then(img => {
                     orig = img;
                     cb(null, orig);
@@ -26,13 +28,13 @@ module.exports = (x, y, width, height) => {
             }
 
         },
-
         comparePixels: function (pixels) {
             var dist = Jimp.distance(orig, pixels);
             var diff = Jimp.diff(orig, pixels);
 
             if(dist < 0.15 || diff.percent < 0.15) {
                 // Match
+                console.log('Same pix');
                 return true
             } else {
                 return false;
@@ -41,7 +43,22 @@ module.exports = (x, y, width, height) => {
             if (!width) {
                 Jimp.read(image).then(img => {
                     const res = this.comparePixels(img);
-                    cb(null, res);
+                    if(!res) {
+                        // Check if pix has children
+                        console.log('check')
+                        img.getBuffer('image/png', (err,buffer) => {
+                            const base64 = buffer.toString('base64');
+                            isChild(base64).then(isChildData => {
+                                if(isChildData) {
+                                    console.log('IS CHILD !');
+                                    cb(null, isChildData);
+                                } else {
+                                    console.log("not children");
+                                    cb(null, isChildData);
+                                }
+                            });
+                        });
+                    }
                 });
             } else {
                 Jimp.read(image)

@@ -23,6 +23,7 @@ export async function isChild(base64) {
    console.log('result : ', json);
 
    if(json) {
+       json.responses[0].labelAnnotations.map(label => console.log(label))
        const isChild = json.responses[0].labelAnnotations.filter(label => label.description === 'infant' || label.description === 'child');
        console.log('Is child ? : ', isChild);
        return isChild.length > 0;
