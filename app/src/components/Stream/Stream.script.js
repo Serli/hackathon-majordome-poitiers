@@ -125,9 +125,5 @@ export default  {
             this.capture(zoneIdData);
           }
         }, 1000);
-        easyrtc.setAcceptChecker(function (caller, cb) {
-            cb(true);
-        });
->>>>>>> 443a08c994b44782f44a005e3ab907c6becb63a5
     }
 }
