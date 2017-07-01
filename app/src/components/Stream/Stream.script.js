@@ -70,6 +70,10 @@ export default  {
             setInterval(() => {
                 this.capture()
             }, 5000)
+        },
+
+        loginFailure() {
+            console.log('lolol')
         }
     },
 
