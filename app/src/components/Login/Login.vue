@@ -18,6 +18,7 @@
                 </button>
             </form>
         </div>
+        <router-link :to="'listen'">listen</router-link>
     </div>
 </template>
 <script src="./Login.script.js"></script>
