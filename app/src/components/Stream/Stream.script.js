@@ -20,8 +20,6 @@ export default  {
         loginFailure(errorCode, message)
         {
         },
-
-        capture() {
         onClickZone(zoneId) {
           this.capture(zoneId);
         },
