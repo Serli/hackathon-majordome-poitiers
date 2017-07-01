@@ -104,7 +104,7 @@ export default  {
     });
     // TODO à décommenter pour livraison
     // socket = io.connect('https://www.christophe-genin.net', { path: '/rest/socket.io' });
-    socket = io();
+    socket = io(config.rest.url);
     socket.on('alert-children', (msg) => {
 
       if ('Notification' in window) {
@@ -126,10 +126,10 @@ export default  {
 
         });
         const show = window.speechSynthesis && SpeechSynthesisUtterance;
-        if (show) {
-          const msg = new SpeechSynthesisUtterance('Attention votre enfant est dans la zone dangereuse !!!');
-          window.speechSynthesis.speak(msg);
-        }
+
+        const msg = new SpeechSynthesisUtterance('Attention votre enfant est dans la zone dangereuse !!!');
+        window.speechSynthesis.speak(msg);
+
 
       }
     });
