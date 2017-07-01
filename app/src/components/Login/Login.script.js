@@ -4,6 +4,15 @@ export default {
     methods: {
         startMonitoring() {
 
+        },
+
+        catchSubmit() {
+            this.$router.push({
+                name: 'listen',
+                params: {
+                    room: 'default'
+                }
+            })
         }
     }
 }

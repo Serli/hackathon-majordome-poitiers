@@ -3,6 +3,10 @@ import config from '../../config';
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
+
+var start = false;
+var zoneIdData;
+
 export default  {
     name: 'rtc',
     methods: {
@@ -23,13 +27,37 @@ export default  {
         loginFailure(errorCode, message)
         {
         },
-
-        onClickZone(zoneId) {
-            this.capture(zoneId);
-        },
-
         capture(zoneId) {
+            console.log(zoneId);
+            return new Promise((resolve, reject) => {
+                const video = this.$refs.video;
+                const canvas = document.createElement("canvas");
+                canvas.width = video.videoWidth;
+                canvas.height = video.videoHeight;
+                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
+                // formData.append('image.png', );
+                canvas.toBlob((blob) => {
+                    const formData = new FormData();
+                    formData.append('file', blob, 'test.png')
+                    formData.append('zoneId', zoneId)
+                    this.$http.post('http://localhost:3000/image', formData).then(response => {
+                        console.log('ok', response);
+                    }, response => {
+                        console.log('ko');
+                    });
+                });
+            })
+        },
+        onClickZone(zoneId)
+        {
+            start = true;
+            zoneIdData = zoneId;
+            //this.capture(zoneId);
+        },
+        capture(zoneId)
+        {
+            console.log(zoneId);
             const video = this.$refs.video;
             const canvas = document.createElement("canvas");
             canvas.width = video.videoWidth;
@@ -50,10 +78,13 @@ export default  {
 
             // console.log(canvas.toDataURL());
 
-        }, notifyMe() {
+        }
+        ,
+        notifyMe()
+        {
             // Voyons si le navigateur supporte les notifications
             if (!("Notification" in window)) {
-                    ("Ce navigateur ne supporte pas les notifications desktop");
+                alert("Ce navigateur ne supporte pas les notifications desktop");
             }
 
             // Voyons si l'utilisateur est OK pour recevoir des notifications
@@ -82,21 +113,37 @@ export default  {
 
             // Comme ça, si l'utlisateur a refusé toute notification, et que vous respectez ce choix,
             // il n'y a pas besoin de l'ennuyer à nouveau.
-        },
+        }
+        ,
 
-        autoCapture() {
+        autoCapture()
+        {
             setInterval(() => {
                 this.capture()
             }, 5000)
-        },
+        }
+        ,
 
-        loginFailure() {
+        loginFailure()
+        {
             console.log(arguments)
         }
     },
 
     mounted() {
-        this.connect()
+        this.connect();
+        const loop = () => {
+            if (start) {
+                this.capture(zoneIdData).then(() => setTimeout(loop, 1000))
+                    .catch(e => setTimeout(loop, 1000));
+            } else {
+                setTimeout(loop, 1000);
+            }
+            ;
+        }
+        loop();
+
+
         easyrtc.setAcceptChecker(function (caller, cb) {
             cb(true);
         });

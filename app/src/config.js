@@ -5,6 +5,8 @@ export default {
         debug: false
     },
   rest: {
+    // TODO à décommenter pour livraison
+    // url: '/rest'
     url: 'http://localhost:3000'
   }
 }

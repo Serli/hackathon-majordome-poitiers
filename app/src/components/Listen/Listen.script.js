@@ -75,7 +75,7 @@ export default  {
         onClickZone(zoneId)
         {
             const active = document.querySelector('.grid-zone.active')
-            if(active) {
+            if (active) {
                 active.classList.remove('active')
             }
             let item = document.getElementById('grid-zone-' + zoneId)
