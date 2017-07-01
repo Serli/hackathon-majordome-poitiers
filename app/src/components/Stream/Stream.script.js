@@ -8,7 +8,8 @@ export default  {
     methods: {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
-            easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
+            easyrtc.setVideoDims(320, 480);
+            easyrtc.enableDebug(false);
             easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure)
         },
 
@@ -20,6 +21,9 @@ export default  {
         {
         },
 
+        onClickZone(zoneId) {
+            this.capture(zoneId);
+        },
         capture(zoneId) {
             console.log(zoneId);
             const video = this.$refs.video;
