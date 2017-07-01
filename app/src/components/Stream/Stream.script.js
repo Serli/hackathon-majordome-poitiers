@@ -28,35 +28,35 @@ export default  {
         {
         },
         capture(zoneId) {
-            console.log(zoneId);
-            return new Promise((resolve, reject) => {
-                const video = this.$refs.video;
-                const canvas = document.createElement("canvas");
-                canvas.width = video.videoWidth;
-                canvas.height = video.videoHeight;
-                canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+          console.log(zoneId);
+          return new Promise((resolve, reject)=> {
+            const video = this.$refs.video;
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-                // formData.append('image.png', );
-                canvas.toBlob((blob) => {
-                    const formData = new FormData();
-                    formData.append('file', blob, 'test.png')
-                    formData.append('zoneId', zoneId)
-                    this.$http.post('http://localhost:3000/image', formData).then(response => {
-                        console.log('ok', response);
-                    }, response => {
-                        console.log('ko');
-                    });
-                });
-            })
+            // formData.append('image.png', );
+            canvas.toBlob((blob) => {
+              const formData = new FormData();
+              formData.append('file', blob, 'test.png')
+              formData.append('zoneId', zoneId)
+              this.$http.post('http://localhost:3000/image', formData).then(response => {
+                console.log('ok', response);
+                resolve(response);
+              }, response => {
+                console.log('ko');
+                reject();
+              });
+            });
+          });
         },
-        onClickZone(zoneId)
-        {
-            start = true;
-            zoneIdData = zoneId;
-            //this.capture(zoneId);
+        onClickZone(zoneId) {
+          start = true;
+          zoneIdData = zoneId;
+          //this.capture(zoneId);
         },
-        capture(zoneId)
-        {
+        capture(zoneId) {
             console.log(zoneId);
             const video = this.$refs.video;
             const canvas = document.createElement("canvas");
@@ -69,7 +69,7 @@ export default  {
                 const formData = new FormData();
                 formData.append('file', blob, 'test.png')
                 formData.append('zoneId', zoneId)
-                this.$http.post(config.rest.url + '/image', formData).then(response => {
+              this.$http.post(config.rest.url + '/image', formData).then(response => {
                     console.log('ok', response);
                 }, response => {
                     console.log('ko');
@@ -78,10 +78,7 @@ export default  {
 
             // console.log(canvas.toDataURL());
 
-        }
-        ,
-        notifyMe()
-        {
+        }, notifyMe() {
             // Voyons si le navigateur supporte les notifications
             if (!("Notification" in window)) {
                 alert("Ce navigateur ne supporte pas les notifications desktop");
@@ -113,19 +110,15 @@ export default  {
 
             // Comme ça, si l'utlisateur a refusé toute notification, et que vous respectez ce choix,
             // il n'y a pas besoin de l'ennuyer à nouveau.
-        }
-        ,
+        },
 
-        autoCapture()
-        {
+        autoCapture() {
             setInterval(() => {
                 this.capture()
             }, 5000)
-        }
-        ,
+        },
 
-        loginFailure()
-        {
+        loginFailure() {
             console.log(arguments)
         }
     },
@@ -133,13 +126,12 @@ export default  {
     mounted() {
         this.connect();
         const loop = () => {
-            if (start) {
-                this.capture(zoneIdData).then(() => setTimeout(loop, 1000))
-                    .catch(e => setTimeout(loop, 1000));
-            } else {
-                setTimeout(loop, 1000);
-            }
-            ;
+          if (start) {
+            this.capture(zoneIdData).then(() => setTimeout(loop, 1000))
+                                    .catch(e => setTimeout(loop, 1000));
+          }else {
+            setTimeout(loop, 1000);
+          };
         }
         loop();
 

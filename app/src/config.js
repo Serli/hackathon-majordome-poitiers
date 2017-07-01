@@ -7,6 +7,6 @@ export default {
   rest: {
     // TODO à décommenter pour livraison
     // url: '/rest'
-    url: 'http://localhost:3000'
+    url: 'http://192.168.43.99:3000'
   }
 }
