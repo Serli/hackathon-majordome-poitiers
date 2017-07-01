@@ -54,6 +54,7 @@ module.exports = (x, y, width, height) => {
                                     cb(null, isChildData);
                                 } else {
                                     console.log("not children");
+                                    cb(null, isChildData);
                                 }
                             });
                         });
