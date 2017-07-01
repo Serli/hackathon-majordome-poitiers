@@ -8,10 +8,19 @@ export default  {
     methods: {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
-            easyrtc.enableDebug(false);
             easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
-            easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure);
+            easyrtc.enableDebug(false);
+            easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure)
         },
+
+        loginSuccess(easyrtcid)
+        {
+        },
+
+        loginFailure(errorCode, message)
+        {
+        },
+
         capture() {
             const video = this.$refs.video;
             const canvas = document.createElement("canvas");
