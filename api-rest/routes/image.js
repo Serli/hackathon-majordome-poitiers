@@ -20,20 +20,21 @@ const fact = (io) => {
           res.sendStatus(500);
         }
 
-        // prévenir papa
+
         console.log(`resultat : ${result}`);
-        io.sockets.emit('alert-children', {});
+        if(result) {
+            console.log("prévenir papa");
+            io.sockets.emit('alert-children', {});
+        }
         res.sendStatus(204);
       });
     } else {
       const zoneIdObj = getPercentageCrop(zoneId);
-      console.log(zoneIdObj);
       Jimp.read(image.data).then(img => {
-        console.log(img);
         const x = zoneIdObj.x;
         const y = zoneIdObj.y;
-        const w = img.width * 0.33;
-        const h = img.height * 0.33;
+        const w = img.bitmap.width * 0.2;
+        const h = img.bitmap.height * 0.2;
         comparator = factory(x, y, w, h);
         console.log('x :' + x + ' y :' + y + ' width: ' + w + 'height: ' + h);
         comparator.setOriginal(image.data, (err, cb) => {

@@ -24,7 +24,10 @@ export async function isChild(base64) {
 
    if(json) {
        json.responses[0].labelAnnotations.map(label => console.log(label))
-       const isChild = json.responses[0].labelAnnotations.filter(label => label.description === 'infant' || label.description === 'child');
+       const isChild = json.responses[0].labelAnnotations.filter(label => label.description === 'infant' ||
+                                                                            label.description === 'child' ||
+                                                                            label.description === 'pink' ||
+                                                                            label.description === 'red');
        console.log('Is child ? : ', isChild);
        return isChild.length > 0;
    }

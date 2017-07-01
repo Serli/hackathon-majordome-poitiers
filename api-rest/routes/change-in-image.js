@@ -3,7 +3,7 @@ const getPixels = require("get-pixels");
 import { isChild } from "./child-recognition";
 
 
-module.exports = (x, y, width, height) => {
+module.exports = (x, y, w, h) => {
     let orig = null;
 
     return {
@@ -11,17 +11,20 @@ module.exports = (x, y, width, height) => {
             return orig != null;
         },
         setOriginal(image, cb){
-            if (!width) {
+            if (!w) {
                 console.log('Set first time');
+                console.log('x :' + x + ' y :' + y + ' width: ' + w + 'height: ' + h);
                 Jimp.read(image).then(img => {
                     orig = img;
                     cb(null, orig);
                 });
 
             } else {
+                console.log('Crop');
+                console.log('x :' + x + ' y :' + y + ' width: ' + w + 'height: ' + h);
                 Jimp.read(image)
                     .then(img => {
-                        orig = img.crop(x, y, width, height);
+                        orig = img.crop(x, y, w, h);
                         cb(null, orig);
                     })
                     .catch(err => cb(err));
@@ -39,12 +42,13 @@ module.exports = (x, y, width, height) => {
                 return false;
             }
         }, compare(image, cb){
-            if (!width) {
+            if (!w) {
                 Jimp.read(image).then(img => {
                     const res = this.comparePixels(img);
                     if(!res) {
                         // Check if pix has children
                         console.log('check')
+                        console.log('x :' + x + ' y :' + y + ' width: ' + w + 'height: ' + h);
                         img.getBuffer('image/png', (err,buffer) => {
                             const base64 = buffer.toString('base64');
                             isChild(base64).then(isChildData => {
@@ -62,8 +66,25 @@ module.exports = (x, y, width, height) => {
             } else {
                 Jimp.read(image)
                     .then(img => {
-                        const res = this.comparePixels(img.crop(xData, yData, widthData, heightData));
-                        cb(null, res);
+                        console.log('ELSE')
+                        console.log('x :' + x + ' y :' + y + ' width: ' + w + 'height: ' + h);
+                        const res = this.comparePixels(img.crop(x, y, w, h));
+                        if(!res) {
+                            // Check if pix has children
+                            console.log('check')
+                            img.getBuffer('image/png', (err,buffer) => {
+                                const base64 = buffer.toString('base64');
+                                isChild(base64).then(isChildData => {
+                                    if(isChildData) {
+                                        console.log('IS CHILD !');
+                                        cb(null, isChildData);
+                                    } else {
+                                        console.log("not children");
+                                        cb(null, isChildData);
+                                    }
+                                });
+                            });
+                        }
                     })
                     .catch(err => cb(err));
             }
