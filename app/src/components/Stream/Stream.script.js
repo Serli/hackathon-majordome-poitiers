@@ -12,7 +12,11 @@ export default  {
             easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
             easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure);
         },
-        capture() {
+        onClickZone(zoneId) {
+          this.capture(zoneId);
+        },
+        capture(zoneId) {
+            console.log(zoneId);
             const video = this.$refs.video;
             const canvas = document.createElement("canvas");
             canvas.width = video.videoWidth;
@@ -23,6 +27,7 @@ export default  {
             canvas.toBlob((blob) => {
                 const formData = new FormData();
                 formData.append('file', blob, 'test.png')
+                formData.append('zoneId', zoneId)
                 this.$http.post('http://localhost:3000/image', formData).then(response => {
                     console.log('ok', response);
                 }, response => {
