@@ -1,7 +1,10 @@
 export default {
-    lang: 'fr',
-    server: {
-        url: 'http://192.168.43.99:8080/easyrtc',
-        debug: false
-    }
+  lang: 'fr',
+  server: {
+    url: 'https://artisans.christophe-genin.net/easyrtc',
+    debug: false
+  },
+  rest: {
+    url: 'http://localhost:3000'
+  }
 }
