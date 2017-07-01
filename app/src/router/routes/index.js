@@ -14,7 +14,7 @@ const routes = [
         component: StreamComponent
     },
     {
-        path: '/listen',
+        path: '/listen/:room?',
         name: 'listen',
         component: ListenComponent
     },
