@@ -1,18 +1,20 @@
-import Vue from 'vue';
 import config from '../../config';
 
 export default  {
-    name: 'rtc',
+    name: 'listen',
+
     methods: {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
             easyrtc.enableDebug(false);
             easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
-            easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure);
+            easyrtc.easyApp('easyrtc.videoChatHd', null, ['caller-video'], this.loginSuccess, this.loginFailure);
         }
     },
 
     mounted() {
-        this.connect()
+        setTimeout(() => {
+            this.connect()
+        }, 1000)
     }
 }

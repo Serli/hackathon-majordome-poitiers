@@ -1,5 +1,6 @@
 import LoginComponent from '@/components/Login/Login.vue'
 import StreamComponent from '@/components/Stream/Stream.vue'
+import ListenComponent from '@/components/Listen/Listen.vue'
 
 const routes = [
     {
@@ -11,6 +12,11 @@ const routes = [
         path: '/stream',
         name: 'stream',
         component: StreamComponent
+    },
+    {
+        path: '/listen',
+        name: 'listen',
+        component: ListenComponent
     },
     {
         path: '/',
