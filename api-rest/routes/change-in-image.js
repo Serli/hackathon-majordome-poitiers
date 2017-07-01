@@ -3,14 +3,15 @@ const getPixels = require("get-pixels");
 
 
 module.exports = (x, y, width, height) => {
-    let orig = [];
+    let orig = null;
 
     return {
         isinit(){
-            return orig.length > 0;
+            return orig != null;
         },
         setOriginal(image, cb){
             if (!width) {
+                console.log('Set first time');
                 Jimp.read(image).then(img => {
                     orig = img;
                     cb(null, orig);
