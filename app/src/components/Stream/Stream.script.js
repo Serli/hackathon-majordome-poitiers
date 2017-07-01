@@ -112,7 +112,7 @@ export default  {
         },
 
         loginFailure() {
-            console.log('lolol')
+            console.log(arguments)
         }
     },
 
