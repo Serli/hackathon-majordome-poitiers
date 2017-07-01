@@ -30,6 +30,7 @@ const fact = (io) => {
       });
     } else {
       const zoneIdObj = getPercentageCrop(zoneId);
+      console.log(zoneIdObj);
       Jimp.read(image.data).then(img => {
         const x = zoneIdObj.x;
         const y = zoneIdObj.y;
@@ -54,27 +55,26 @@ const fact = (io) => {
   function getPercentageCrop(zoneId) {
     console.log('get percentage zone id :', zoneId);
     switch (zoneId) {
-        case 1 :
+        case '1' :
             return { x: 0, y: 0 };
-        case 2 :
+        case '2' :
             return { x: 33, y: 0 };
-        case 3 :
+        case '3' :
             return { x: 66, y: 0 };
 
-        case 4 :
+        case '4' :
             return { x: 0, y: 33 };
-        case 5 :
+        case '5' :
             return { x: 33, y: 33 };
-        case 6 :
+        case '6' :
             return { x: 66, y: 33 };
 
-        case 7 :
+        case '7' :
             return { x: 0, y: 66 };
-        case 8 :
+        case '8' :
             return { x: 33, y: 66 };
-        case 9 :
+        case '9' :
             return { x: 66, y: 66 };
-
 
     }
   }
