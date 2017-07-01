@@ -27,13 +27,13 @@ module.exports = (x, y, width, height) => {
             }
 
         },
-
         comparePixels: function (pixels) {
             var dist = Jimp.distance(orig, pixels);
             var diff = Jimp.diff(orig, pixels);
 
             if(dist < 0.15 || diff.percent < 0.15) {
                 // Match
+                console.log('Same pix');
                 return true
             } else {
                 return false;
