@@ -1,5 +1,6 @@
 const Jimp = require("jimp");
 const getPixels = require("get-pixels");
+import { isChild } from "./child-recognition";
 
 
 module.exports = (x, y, width, height) => {
@@ -42,7 +43,21 @@ module.exports = (x, y, width, height) => {
             if (!width) {
                 Jimp.read(image).then(img => {
                     const res = this.comparePixels(img);
-                    cb(null, res);
+                    if(!res) {
+                        // Check if pix has children
+                        console.log('check')
+                        img.getBuffer('image/png', (err,buffer) => {
+                            const base64 = buffer.toString('base64');
+                            isChild(base64).then(isChildData => {
+                                if(isChildData) {
+                                    console.log('IS CHILD !');
+                                    cb(null, isChildData);
+                                } else {
+                                    console.log("not children");
+                                }
+                            });
+                        });
+                    }
                 });
             } else {
                 Jimp.read(image)
