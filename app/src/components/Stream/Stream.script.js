@@ -20,9 +20,7 @@ export default  {
         loginFailure(errorCode, message)
         {
         },
-        onClickZone(zoneId) {
-          this.capture(zoneId);
-        },
+
         capture(zoneId) {
             console.log(zoneId);
             const video = this.$refs.video;
