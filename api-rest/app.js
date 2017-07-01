@@ -6,12 +6,54 @@ import logger from 'morgan';
 // import favicon from 'serve-favicon';
 import path from 'path';
 import lessMiddleware from 'less-middleware';
-import index from './routes/index';
-import image from './routes/image';
+const index = require('./routes/index');
+const image = require('./routes/image');
 const fileUpload = require('express-fileupload');
-
+const http = require('http');
 const app = express();
 const debug = Debug('api-rest:app');
+
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+const normalizePort = function(val) {
+  const port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
+  }
+
+  if (port >= 0) {
+    // port number
+    return port;
+  }
+
+  return false;
+};
+
+/**
+ * Get port from environment and store in Express.
+ */
+
+const port = normalizePort(process.env.PORT || '3000');
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+
+const io = require('socket.io')(server);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -36,8 +78,8 @@ app.use(cookieParser());
 app.use(lessMiddleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
-app.use('/image', image);
+app.use('/', index(io));
+app.use('/image', image(io));
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
@@ -60,8 +102,8 @@ app.use((err, req, res, next) => {
 // Handle uncaughtException
 process.on('uncaughtException', (err) => {
     debug('Caught exception: %j', err);
-    console.error(err)
+    console.error(err);
     process.exit(1);
 });
 
-export default app;
+export default server;
