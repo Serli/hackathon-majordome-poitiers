@@ -14,7 +14,7 @@ export default  {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
             easyrtc.enableDebug(false);
-            easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
+            easyrtc.setVideoDims(320, 480);
             easyrtc.easyApp("easyrtc.videoChatHd", "selfVideo", ["callerVideo"], this.loginSuccess, this.loginFailure);
         },
 
