@@ -81,7 +81,7 @@ Folder Structure
  * / (root)
    * Licenses and package information
  * /api/
-   * Client API files including easyrtc.js  
+   * Client API files including socket.io.js  
  * /demos/
    * EasyRTC live demos and example code
  * /docs/

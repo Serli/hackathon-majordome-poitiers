@@ -1,6 +1,7 @@
 <template>
     <div>
         <!--<button style="position: absolute; z-index: 9000;" @click="capture()">Capture</button>-->
+        <video autoplay="autoplay" id="callerVideo" style="display: none;"></video>
         <video class="easyrtcMirror" autoplay="autoplay" id="stream" muted="true" volume="0" ref="video"></video>
         <div id="grid">
             <div class="grid-3">
@@ -18,7 +19,6 @@
                 <div class="grid-zone" @click="onClickZone(8)"></div>
                 <div class="grid-zone" @click="onClickZone(9)"></div>
             </div>
-
         </div>
     </div>
 </template>

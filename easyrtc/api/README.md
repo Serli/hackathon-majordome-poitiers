@@ -1,4 +1,4 @@
-The easyrtc.js file is built from the easyrtc_int.js file.
+The socket.io.js file is built from the easyrtc_int.js file.
 To build it, 
 
       go to the top level easyrtc directory

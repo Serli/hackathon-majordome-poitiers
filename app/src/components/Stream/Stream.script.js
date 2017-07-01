@@ -8,9 +8,12 @@ export default  {
     methods: {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
+            easyrtc.setAcceptChecker(function (caller, cb) {
+                cb(true);
+            })
             easyrtc.setVideoDims(320, 480);
             easyrtc.enableDebug(false);
-            easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure)
+            easyrtc.easyApp("easyrtc.videoChatHd", "stream", ['callerVideo'], this.loginSuccess, this.loginFailure)
         },
 
         loginSuccess(easyrtcid)
@@ -24,8 +27,9 @@ export default  {
         onClickZone(zoneId) {
             this.capture(zoneId);
         },
+
         capture(zoneId) {
-            console.log(zoneId);
+
             const video = this.$refs.video;
             const canvas = document.createElement("canvas");
             canvas.width = video.videoWidth;
@@ -49,7 +53,7 @@ export default  {
         }, notifyMe() {
             // Voyons si le navigateur supporte les notifications
             if (!("Notification" in window)) {
-                alert("Ce navigateur ne supporte pas les notifications desktop");
+                    ("Ce navigateur ne supporte pas les notifications desktop");
             }
 
             // Voyons si l'utilisateur est OK pour recevoir des notifications
