@@ -1,17 +1,8 @@
 <template>
     <div>
-        <div id="connectControls">
-            <div id="iam">Pas encore connecté...</div>
-            <br />
-            <strong>Utilisateurs connectés:</strong>
-            <div id="otherClients"></div>
-        </div>
         <div id="videos">
-
-            <div style="position:relative;float:left;" width="1282" height="722">
-                <video autoplay="autoplay" id="callerVideo"></video>
-                <video  class="easyrtcMirror" autoplay="autoplay" id="selfVideo" muted="true" volume="0" ></video>
-            </div>
+            <video autoplay="autoplay" id="callerVideo"></video>
+            <video class="easyrtcMirror" autoplay="autoplay" id="selfVideo" muted="true" volume="0"></video>
         </div>
         <div id="grid">
             <div class="grid-3">
