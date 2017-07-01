@@ -33,5 +33,8 @@ export default  {
         easyrtc.setAcceptChecker(function (caller, cb) {
             cb(true);
         })
+        this.$nextTick(() => {
+            easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
+        })
     }
 }
