@@ -1,7 +1,7 @@
 <template>
     <div>
-        <video id="localVideo"></video>
-        <div id="remoteVideos"></div>
+        <!--<button style="position: absolute; z-index: 9000;" @click="capture()">Capture</button>-->
+        <video class="easyrtcMirror" autoplay="autoplay" id="stream" muted="true" volume="0" ref="video"></video>
         <div id="grid">
             <div class="grid-3">
                 <div class="grid-zone" @click="onClickZone(1)"></div>

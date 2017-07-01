@@ -3,53 +3,26 @@ import config from '../../config';
 import VueResource from 'vue-resource';
 Vue.use(VueResource);
 
-
-var start = false;
-var zoneIdData;
-
 export default  {
     name: 'rtc',
     methods: {
-        connect()
+        connect() {
+            easyrtc.setSocketUrl(config.server.url);
+            easyrtc.setVideoDims(320, 480);
+            easyrtc.enableDebug(false);
+            easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure)
+        },
+
+        loginSuccess(easyrtcid)
         {
-            var webrtc = new SimpleWebRTC({
-                // the id/element dom element that will hold "our" video
-                localVideoEl: 'localVideo',
-                // the id/element dom element that will hold remote videos
-                remoteVideosEl: 'remoteVideos',
-                // immediately ask for camera access
-                autoRequestMedia: true
-            });
-
-            webrtc.on('readyToCall', function () {
-                // you can name it anything
-                webrtc.joinRoom('default');
-            });
         },
-        capture(zoneId) {
-          console.log(zoneId);
-          const video = this.$refs.video;
-          const canvas = document.createElement("canvas");
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-          // formData.append('image.png', );
-          canvas.toBlob((blob) => {
-            const formData = new FormData();
-            formData.append('file', blob, 'test.png')
-            formData.append('zoneId', zoneId)
-            this.$http.post('http://localhost:3000/image', formData).then(response => {
-              console.log('ok', response);
-            }, response => {
-              console.log('ko');
-            });
-          });
+        loginFailure(errorCode, message)
+        {
         },
+
         onClickZone(zoneId) {
-          start = true;
-          zoneIdData = zoneId;
-          //this.capture(zoneId);
+            this.capture(zoneId);
         },
         capture(zoneId) {
             console.log(zoneId);
@@ -119,11 +92,9 @@ export default  {
     },
 
     mounted() {
-        this.connect();
-        setInterval(() => {
-          if(start) {
-            this.capture(zoneIdData);
-          }
-        }, 1000);
+        this.connect()
+        easyrtc.setAcceptChecker(function (caller, cb) {
+            cb(true);
+        });
     }
 }
