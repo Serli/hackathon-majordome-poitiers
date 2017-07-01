@@ -75,5 +75,8 @@ export default  {
 
     mounted() {
         this.connect()
+        easyrtc.setAcceptChecker(function (caller, cb) {
+            cb(true);
+        });
     }
 }
