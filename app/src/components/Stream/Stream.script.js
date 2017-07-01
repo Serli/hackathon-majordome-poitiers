@@ -9,7 +9,6 @@ export default  {
         connect() {
             easyrtc.setSocketUrl(config.server.url);
             easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
-            easyrtc.enableDebug(false);
             easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure)
         },
 
@@ -84,7 +83,7 @@ export default  {
         },
 
         loginFailure() {
-            console.log('lolol')
+            console.log(arguments)
         }
     },
 
