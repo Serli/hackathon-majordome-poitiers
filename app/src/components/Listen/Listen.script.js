@@ -3,88 +3,26 @@ let socket = null;
 export default  {
     name: 'listen',
 
-    data() {
-        return {
-            selfEasyrtcid: null
-        }
-    },
-
     methods: {
-
 
         connect()
         {
-            easyrtc.setVideoDims(1280, 720);
-            easyrtc.enableDebug(true);
-            easyrtc.setRoomOccupantListener(this.convertListToButtons);
-            console.log('connected')
-            easyrtc.easyApp("easyrtc.videoChatHd", "selfVideo", ["callerVideo"], this.loginSuccess, this.loginFailure);
+            var webrtc = new SimpleWebRTC({
+                // the id/element dom element that will hold "our" video
+                localVideoEl: 'stream',
+                // the id/element dom element that will hold remote videos
+                remoteVideosEl: 'remoteVideos',
+                // immediately ask for camera access
+                autoRequestMedia: true
+            });
+
+            webrtc.on('readyToCall', function () {
+                // you can name it anything
+                webrtc.joinRoom('default');
+            });
         }
         ,
 
-
-        clearConnectList()
-        {
-            var otherClientDiv = document.getElementById('otherClients');
-            while (otherClientDiv.hasChildNodes()) {
-                otherClientDiv.removeChild(otherClientDiv.lastChild);
-            }
-        }
-        ,
-
-
-        convertListToButtons(roomName, data, isPrimary)
-        {
-            clearConnectList();
-            var otherClientDiv = document.getElementById('otherClients');
-            for (var easyrtcid in data) {
-                var button = document.createElement('button');
-                button.onclick = function (easyrtcid) {
-                    return function () {
-                        performCall(easyrtcid);
-                    };
-                }(easyrtcid);
-
-                var label = document.createTextNode(easyrtc.idToName(easyrtcid));
-                button.appendChild(label);
-                button.className = "callbutton";
-                otherClientDiv.appendChild(button);
-            }
-        }
-        ,
-
-
-        performCall(otherEasyrtcid)
-        {
-            easyrtc.hangupAll();
-            var acceptedCB = function (accepted, caller) {
-                if (!accepted) {
-                    easyrtc.showError("CALL-REJECTED", "Sorry, your call to " + easyrtc.idToName(caller) + " was rejected");
-                }
-            };
-            var successCB = function () {
-            };
-            var failureCB = function () {
-            };
-            easyrtc.call(otherEasyrtcid, successCB, failureCB, acceptedCB);
-        }
-        ,
-
-
-        loginSuccess(easyrtcid)
-        {
-            this.selfEasyrtcid = easyrtcid;
-            document.getElementById("iam").innerHTML = "I am " + easyrtc.cleanId(easyrtcid);
-        }
-        ,
-
-
-        loginFailure(errorCode, message)
-        {
-            console.log(message)
-            easyrtc.showError(errorCode, message);
-        }
-        ,
         onClickZone(zoneId)
         {
             this.capture(zoneId);
@@ -94,13 +32,6 @@ export default  {
     mounted()
     {
         this.connect()
-        easyrtc.setAcceptChecker(function (caller, cb) {
-            cb(true);
-        })
-
-        this.$nextTick(() => {
-            easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
-        });
         socket = io(config.rest.url);
         socket.on('alert-children', (msg) => {
 

@@ -6,19 +6,21 @@ Vue.use(VueResource);
 export default  {
     name: 'rtc',
     methods: {
-        connect() {
-            easyrtc.setSocketUrl(config.server.url);
-            easyrtc.setVideoDims(320, 480);
-            easyrtc.enableDebug(false);
-            easyrtc.easyApp("easyrtc.videoChatHd", "stream", [], this.loginSuccess, this.loginFailure)
-        },
-
-        loginSuccess(easyrtcid)
+        connect()
         {
-        },
+            var webrtc = new SimpleWebRTC({
+                // the id/element dom element that will hold "our" video
+                localVideoEl: 'localVideo',
+                // the id/element dom element that will hold remote videos
+                remoteVideosEl: 'remoteVideos',
+                // immediately ask for camera access
+                autoRequestMedia: true
+            });
 
-        loginFailure(errorCode, message)
-        {
+            webrtc.on('readyToCall', function () {
+                // you can name it anything
+                webrtc.joinRoom('default');
+            });
         },
 
         onClickZone(zoneId) {
@@ -37,7 +39,7 @@ export default  {
                 const formData = new FormData();
                 formData.append('file', blob, 'test.png')
                 formData.append('zoneId', zoneId)
-                this.$http.post('http://localhost:3000/image', formData).then(response => {
+                this.$http.post(config.rest.url + '/image', formData).then(response => {
                     console.log('ok', response);
                 }, response => {
                     console.log('ko');
@@ -93,8 +95,5 @@ export default  {
 
     mounted() {
         this.connect()
-        easyrtc.setAcceptChecker(function (caller, cb) {
-            cb(true);
-        });
     }
 }

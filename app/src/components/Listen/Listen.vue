@@ -1,7 +1,7 @@
 <template>
     <div>
-        <video autoplay="autoplay" id="callerVideo"></video>
-        <video class="easyrtcMirror" autoplay="autoplay" id="selfVideo" muted="true" volume="0"></video>
+        <video id="localVideo"></video>
+        <div id="remoteVideos"></div>
         <div id="grid">
             <div class="grid-3">
                 <div class="grid-zone" @click="onClickZone(1)"></div>
