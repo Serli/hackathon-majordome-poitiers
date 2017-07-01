@@ -26,21 +26,25 @@ export default  {
         },
         capture(zoneId) {
           console.log(zoneId);
-          const video = this.$refs.video;
-          const canvas = document.createElement("canvas");
-          canvas.width = video.videoWidth;
-          canvas.height = video.videoHeight;
-          canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
+          return new Promise((resolve, reject)=> {
+            const video = this.$refs.video;
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
-          // formData.append('image.png', );
-          canvas.toBlob((blob) => {
-            const formData = new FormData();
-            formData.append('file', blob, 'test.png')
-            formData.append('zoneId', zoneId)
-            this.$http.post('http://localhost:3000/image', formData).then(response => {
-              console.log('ok', response);
-            }, response => {
-              console.log('ko');
+            // formData.append('image.png', );
+            canvas.toBlob((blob) => {
+              const formData = new FormData();
+              formData.append('file', blob, 'test.png')
+              formData.append('zoneId', zoneId)
+              this.$http.post('http://localhost:3000/image', formData).then(response => {
+                console.log('ok', response);
+                resolve(response);
+              }, response => {
+                console.log('ko');
+                reject();
+              });
             });
           });
         },
@@ -68,9 +72,6 @@ export default  {
                     console.log('ko');
                 });
             });
-
-            // console.log(canvas.toDataURL());
-
         }, notifyMe() {
             // Voyons si le navigateur supporte les notifications
             if (!("Notification" in window)) {
@@ -118,11 +119,17 @@ export default  {
 
     mounted() {
         this.connect();
-        setInterval(() => {
-          if(start) {
-            this.capture(zoneIdData);
-          }
-        }, 1000);
+        const loop = () => {
+          if (start) {
+            this.capture(zoneIdData).then(() => setTimeout(loop, 1000))
+                                    .catch(e => setTimeout(loop, 1000));
+          }else {
+            setTimeout(loop, 1000);
+          };
+        }
+        loop();
+
+
         easyrtc.setAcceptChecker(function (caller, cb) {
             cb(true);
         });
