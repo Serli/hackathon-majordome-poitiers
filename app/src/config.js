@@ -1,7 +1,7 @@
 export default {
     lang: 'fr',
     server: {
-        url: 'https://artisans.christophe-genin.net/client-webrtc/',
+        url: 'https://artisans.christophe-genin.net',
         debug: false
     }
 }
