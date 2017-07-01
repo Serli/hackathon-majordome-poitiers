@@ -24,9 +24,34 @@ export default  {
         loginFailure(errorCode, message)
         {
         },
+        capture(zoneId) {
+          console.log(zoneId);
+          return new Promise((resolve, reject)=> {
+            const video = this.$refs.video;
+            const canvas = document.createElement("canvas");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            canvas.getContext('2d').drawImage(video, 0, 0, canvas.width, canvas.height);
 
+            // formData.append('image.png', );
+            canvas.toBlob((blob) => {
+              const formData = new FormData();
+              formData.append('file', blob, 'test.png')
+              formData.append('zoneId', zoneId)
+              this.$http.post('http://localhost:3000/image', formData).then(response => {
+                console.log('ok', response);
+                resolve(response);
+              }, response => {
+                console.log('ko');
+                reject();
+              });
+            });
+          });
+        },
         onClickZone(zoneId) {
-            this.capture(zoneId);
+          start = true;
+          zoneIdData = zoneId;
+          //this.capture(zoneId);
         },
         capture(zoneId) {
             console.log(zoneId);
@@ -97,11 +122,17 @@ export default  {
 
     mounted() {
         this.connect();
-      setInterval(() => {
-        if(start) {
-          this.capture(zoneIdData);
+        const loop = () => {
+          if (start) {
+            this.capture(zoneIdData).then(() => setTimeout(loop, 1000))
+                                    .catch(e => setTimeout(loop, 1000));
+          }else {
+            setTimeout(loop, 1000);
+          };
         }
-      }, 1000);
+        loop();
+
+
         easyrtc.setAcceptChecker(function (caller, cb) {
             cb(true);
         });

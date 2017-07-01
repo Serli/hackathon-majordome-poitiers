@@ -21,7 +21,6 @@
                 <router-link :to="'listen'">Surveiller</router-link>
             </button>
         </div>
-        <router-link :to="'listen'">listen</router-link>
     </div>
 </template>
 <script src="./Login.script.js"></script>
