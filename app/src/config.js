@@ -5,6 +5,6 @@ export default {
         debug: false
     },
   rest: {
-    url: 'http://192.168.43.239:3000'
+    url: 'http://localhost:3000'
   }
 }
