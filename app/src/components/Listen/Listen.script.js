@@ -102,7 +102,9 @@ export default  {
     this.$nextTick(() => {
       easyrtc.setVideoDims(window.innerWidth, window.innerHeight);
     });
-    socket = io.connect('https://www.christophe-genin.net', { path: '/rest/socket.io' });
+    // TODO à décommenter pour livraison
+    // socket = io.connect('https://www.christophe-genin.net', { path: '/rest/socket.io' });
+    socket = io();
     socket.on('alert-children', (msg) => {
 
       if ('Notification' in window) {
